@@ -1,5 +1,5 @@
-A test suite for the DtfSQLmac drivers
-======================================
+A test suite for the DtfSQLmac driver
+=====================================
 
 Most of the tests are borrowed from Jochen Wiedmann's test suite for  
 DBD drivers, which is part of the Msql-Mysql-modules distribution 

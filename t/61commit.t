@@ -1,7 +1,7 @@
 #! perl -w
 #
 #
-#   This is testing the transaction support.
+#   Here we are testing the transaction support.
 #
 
 $^W = 1;
@@ -71,7 +71,7 @@ while (Testing()) {
     Test($state or ($dbh = DBI->connect($test_dsn, $test_user,
 					$test_password)),
 	 undef,
-	 "Attempting to connect.\n")
+	 "# Attempting to connect.\n")
 	or ErrMsgF("Cannot connect: Error (%s): %s\n\n",
 		   $DBI::err, $DBI::errstr);
 

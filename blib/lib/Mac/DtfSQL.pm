@@ -7,7 +7,7 @@
 #
 #       Thomas Wegner
 #
-#       Email: toms_email@gmx.de
+#       Email: wegner_thomas@yahoo.com
 #
 #   All rights reserved.
 #
@@ -236,7 +236,7 @@ require DynaLoader;
 Exporter::export_ok_tags('all'); # add :all tag to @EXPORT_OK
 
 
-$VERSION = '0.1201'; # initial public release, where x.x201 refers to version 2.01 of dtF/SQL
+$VERSION = '0.2201'; # initial public release, where x.x201 refers to version 2.01 of dtF/SQL
 
 bootstrap Mac::DtfSQL $VERSION;
 
@@ -918,9 +918,11 @@ a Mac running Mac OS 7.x/8.x/9.x (and probably there will never be). Things are 
 alleviate the situation. 
 
 This module should run on a PowerPC Macintosh with Mac OS 7.x/8.x/9.x right out of the box. Unfortunately, users 
-of a 68K Mac are a bit out of luck, because I cannot provide a pre-build version for them. One will 
-need a Metrowerks Codewarrior compiler and linker to build a version for CFM 68K Macs (see the MODULE 
-ARCHITECTURE section for details).
+of a 68K Mac are a bit out of luck, because I cannot provide a pre-built version for them. One will need a 
+Metrowerks Codewarrior compiler and linker to build a version for 68K Macs (see the MODULE ARCHITECTURE section 
+for details). 
+
+
 
 The module has been developed on a Mac, it has been tested on a Mac and it runs on a Mac. However, 
 dtF/SQL is available for other platforms too. At the moment, I see no reason why this module shouldn't 
@@ -934,9 +936,9 @@ restricted to DBD::CSV, which, after all, isn't the same as working with a real 
 
 =head1 MODULE ARCHITECTURE
 
-This is an extension module, which has been pre-build (PPC only) under Apple's MPW as a shared library 
+This is an extension module, which has been pre-built (PPC only) under Apple's MPW as a shared library 
 that will be loaded by MacPerl. Thus, you don't need to bother with MPW if you don't like. Note that the 
-pre-build library C<DtfSQL> is useless without the dtF/SQL 2.01 shared library C<dtFPPCSV2.8K.shlb> it
+pre-built library C<DtfSQL> is useless without the dtF/SQL 2.01 shared library C<dtFPPCSV2.8K.shlb> it
 depends on. I've chosen to build the extension as a shared library that *depends* on another shared library 
 mainly for two reasons:
 
@@ -953,14 +955,17 @@ I<Note that I do not redistribute any of the material that comes with the dtF/SQ
 
 =back
 
-Unfortunately, there is no shared library for CFM 68K Macs. Users of a 68K Mac will definitely need
-the Metrowerks Codewarrior IDE (Pro 2 or higher) to build the Perl extension library (by linking against 
-the static library C<dtF68KSV2.8K.lib>). 
- 
+Unfortunately, there is no shared library for CFM 68K Macs. Users of a CFM 68K Mac running MacPerl 5.2.0r4
+will definitely need the Metrowerks Codewarrior IDE (Pro 2 or higher) to build the Perl extension library (by 
+linking against the static library C<dtF68KSV2.8K.lib>).
+
 Owners of a PowerPC Mac with Metrowerks Codewarrior installed could of course link against the static library that 
 comes with the dtF/SQL 2.01 distribution (C<dtFPPCSV2.8K.lib>) in the build process, thus ending up with a single
 shared library.
 
+However, be aware that support for dynamic loading of shared libraries has been dropped for the 68K versions of 
+the new MacPerl 5.6.1 (and higher) tool and application. Hence, you will have to link the Mac::DtfSQL extension 
+I<statically> into your MacPerl 5.6.1 binary.
 
 
 =head1 INSTALLATION
@@ -968,33 +973,35 @@ shared library.
 This module is bundled with the DBD::DtfSQLmac module, a driver for the DBI module, and should be installed as part 
 of it. See the installation instructions in the DBD::DtfSQLmac module documentation for details. However, if you, for 
 any reason, don't want to install the DBI driver, this module could also be used stand-alone. Follow the installation 
-instructions in the DBD::DtfSQLmac module and then delete the DBD::DtfSQLmac module from your C<:site_perl> folder.
+instructions in the DBD::DtfSQLmac module and then delete the DBD::DtfSQLmac module from your Perl library (by 
+default it's located in the C<site_perl> folder).
 
-If you use the pre-build version of this module or you've built this module as a shared library
+If you use the pre-built version of this module or you've built this module as a shared library
 that depends on the dtF/SQL 2.01 shared library C<dtFPPCSV2.8K.shlb>, then this module needs to know where the dtF/SQL 
 2.01 shared library is located on your harddisk. Either put the dtF/SQL 2.01 shared library C<dtFPPCSV2.8K.shlb> 
 (or at least an alias to it) in the *same* folder as the shared library C<DtfSQL> built from this extension module 
-(the folder is C<:MacPerlÄ:site_perl:MacPPC:auto:Mac:DtfSQL:>) or put the dtF/SQL 2.01 shared library in the *system 
-extensions* folder.
+(by default the folder is C<:MacPerlÄ:site_perl:MacPPC:auto:Mac:DtfSQL:>) or put the dtF/SQL 2.01 shared library in 
+the *system extensions* folder.
 
 After you've installed this module and the dtF/SQL 2.01 shared library, you may want to run the test.pl script, to see 
-if the module loads properly (note that only test no. 1 is dedicated to this module, the remaining tests are DBI specific) .
-Then you are able to run the scripts C<createSampleDB.pl> (creates the sample database C<SampleDB.dtf>), 
-C<browser.pl> (an interactive tool for querying the database with SQL statements) and C<decimals.pl> (tests the
-decimal object methods), located in the samples folder. 
+if the module loads properly (note that only test #1 is dedicated to this module, the remaining tests are DBI specific).
+Then you are able to run the scripts C<createSampleDB.pl> (creates the sample database C<SampleDB.dtf>), C<browser.pl> 
+(an interactive tool for querying the database with SQL statements) and C<decimals.pl> (tests thedecimal object methods), 
+located in the samples folder. 
 
 
 =head1 MEMORY REQUIREMENTS
 
- A minimum of 10MB of RAM assigned to the MacPerl application.
- A minimum of 11MB of RAM assigned to the MPW Shell for running the MacPerl tool.
+ A minimum of 10MB / 11MB of RAM assigned to the MacPerl 5.2.0r4 / 5.6.1 application.
+ A minimum of 11MB / 12MB of RAM assigned to the MPW Shell for running the MacPerl 5.2.0r4 / 5.6.1 tool.
 
-This module requires quite a bit of RAM, as noted above. These values were determined by running the C<browser.pl> script
-(connected to C<SampleDB.dtf>) that comes with this module. The values should be regarded as the absolute minimum. As your 
-database grows, be prepared to assign more memory to MacPerl. While the MacPerl application reports an "out of memory!" 
-error, the MacPerl MPW tool reports a "Can't connect as user X" error. However, if you get an out of memory error, it's 
-better to quit the corresponding application. If you try to run another script, you can crash your computer.
-
+This module requires quite a bit of RAM, as noted above. These values were determined by running the DBI test suite 
+that comes with this module. They should be regarded as the absolute minimum. The MacPerl 5.6.1 application and tool 
+will need at least 1MB more RAM than the MacPerl 5.2.0r4 application and tool. However, as your database grows, be 
+prepared to assign more memory to MacPerl. If the memory assigned is less than the minimum, the MacPerl application 
+or tool may crash during connection. Otherwise, the MacPerl application and the tool usually report an "out of memory!" 
+or a "Can't connect as user X" error. However, if you get such an out of memory error, it's better to quit the 
+corresponding application (and assign more RAM to it). If you try to run another script, you can crash your computer.
 
 =head1 HOW TO GET dtF/SQL 2.01
 
@@ -2282,6 +2289,7 @@ article mentioned in the REFERENCES section, says it all:
 =item The Perl XS language is covered in:
 
  perlguts.pod
+ perlapi.pod
  perlxs.pod
  perlxstut.pod
  
@@ -2300,7 +2308,7 @@ S< >I<(Credits to Arved Sandstrom and Alan Fry)>
 
  An updated version (v1.1) of the tutorial can be found on my website at
 
- http://usemacperl.webjump.com/index.html
+ http://usemacperl.esmartweb.com/index.html
  
 =back
 
@@ -2308,11 +2316,11 @@ S< >I<(Credits to Arved Sandstrom and Alan Fry)>
 
 =over 0
 
-Thomas Wegner    toms_email@gmx.de
+Thomas Wegner    wegner_thomas@yahoo.com
 
 =back
  
-Copyright (c) 2000-2001 Thomas Wegner.  All rights reserved.  This program is
+Copyright (c) 2000-2001 Thomas Wegner. All rights reserved. This program is
 free software. You may redistribute it and/or modify it under the terms
 of the Artistic License, distributed with Perl.
 

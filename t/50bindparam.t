@@ -1,6 +1,8 @@
 #! perl
 #
 #
+#   This is a test for parameter binding.
+#
 
 $^W = 1;
 
@@ -173,7 +175,7 @@ while (Testing()) {
 	#
 	### Test 23   
     Test($state or ( $ref = $cursor->fetch && $id == 1))
-	or printf("Query returned id = %s, name = %20.20s, ref = %s, %d\n",
+	or printf("# Query returned id = %s, name = %20.20s, ref = %s, %d\n",
 		  $id, $name, $ref, scalar(@$ref));
 
 
@@ -181,41 +183,41 @@ while (Testing()) {
 	### Test 24
     Test($state or (($ref = $cursor->fetch)  &&  $id == 2  &&
 		    $name eq 'Bart Simpson'))
-	or printf("Query returned id = %s, name = -%s-, ref = %s, %d\n",
+	or printf("# Query returned id = %s, name = -%s-, ref = %s, %d\n",
 		  $id, $name, $ref, scalar(@$ref));
 
 	#
 	### Test 25
     Test($state or (($ref = $cursor->fetch)  &&  $id == 3  &&
 		    $name eq 'Ally McBeal'))
-	or printf("Query returned id = %s, name = %s, ref = %s, %d\n",
+	or printf("# Query returned id = %s, name = %s, ref = %s, %d\n",
 		  $id, $name, $ref, scalar(@$ref));
 
 	#
 	### Test 26
     Test($state or (($ref = $cursor->fetch)  &&  $id == 4  &&
 		    $name eq 'Thomas Wegner'))
-	or printf("Query returned id = %s, name = %s, ref = %s, %d\n",
+	or printf("# Query returned id = %s, name = %s, ref = %s, %d\n",
 		  $id, $name, $ref, scalar(@$ref));
 
 	#
 	### Test 27
     Test($state or (($ref = $cursor->fetch)  &&  $id == 5  &&
 		    !defined($name)))
-	or printf("Query returned id = %s, name = %s, ref = %s, %d\n",
+	or printf("# Query returned id = %s, name = %s, ref = %s, %d\n",
 		  $id, $name, $ref, scalar(@$ref));
 
 	#
 	### Test 28
     Test($state or (($ref = $cursor->fetch)  &&  $id == 6  &&
 		   $name eq '?'))
-	or print("Query returned id = $id, name = $name, expected 6, ?\n");
+	or print("# Query returned id = $id, name = $name, expected 6, ?\n");
 	
 	#
 	### Test 29
     Test($state or (($ref = $cursor->fetch)  &&  $id == 7  &&
 		   $name eq "don't"))
-	or print("Query returned id = $id, name = $name, expected 7, don't\n");
+	or print("# Query returned id = $id, name = $name, expected 7, don't\n");
 
 	#
 	### Test 30

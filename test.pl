@@ -21,13 +21,13 @@ if ($@) { # Mac::DtfSQL could not be loaded
 The Mac::DtfSQL module could not be loaded.
 
 Most likely reason:
-The Mac::DtfSQL module needs the dtF/SQL 2.01 shared library for PPC in order to work. This
-lib has to be placed in the proper location on your harddisk.
+The Mac::DtfSQL module needs the dtF/SQL 2.01 shared library for PPC in order to 
+work. This lib has to be placed in the proper location on your harddisk.
 
-Either put the dtF/SQL 2.01 shared library dtFPPCSV2.8K.shlb (or at least an alias to it) in 
-the *same* folder as the shared library DtfSQL builded from this extension module (the folder
-is :site_perl:MacPPC:auto:Mac:DtfSQL:) or put the dtF/SQL 2.01 shared library in the *system 
-extensions* folder.
+Either put the dtF/SQL 2.01 shared library dtFPPCSV2.8K.shlb (or at least an alias 
+to it) in the *same* folder as the shared library DtfSQL builded from this extension 
+module (by default, the folder is :site_perl:MacPPC:auto:Mac:DtfSQL:) or put the 
+dtF/SQL 2.01 shared library in the *system extensions* folder.
 
 EOT_NOTOK
 

@@ -68,7 +68,7 @@ print "\nConnecting to $test_dsn\nas user $test_user (password: $test_password) 
 $dbh = DBI->connect(	$test_dsn, 
 						$test_user, 
 						$test_password, 
-						{AutoCommit => 0, RaiseError => 0} 
+						{AutoCommit => 0, RaiseError => 0, PrintError => $verbose} 
 					  ) || die "Can't connect to database: " . DBI->errstr; 
 
 print "ok 2\n" if $dbh; # else died
@@ -109,11 +109,10 @@ $sth->{Active} ? print "ok 9\n" : print "not ok 9\n";
 !$sth->{Active} ? print "ok 10\n" : print "not ok 10\n";
 
 
-
+$dbh->{RaiseError} = 1;
 # the following should fail
 undef $@;
 eval {
-	$dbh->{RaiseError} = 1;
 	$dbh->do("some invalid sql statement");
 };
 $@ =~ /DBD::DtfSQLmac::db do failed:/ ? print "ok 11\n" : print "not ok 11\n";
@@ -182,23 +181,19 @@ print "\n+++\neval error for test 17: \n$@---\n\n" if $verbose;
 
 
 
-# should fail, because the quoting is wrong
-undef $@;
-eval {
-	$rc = $sth->execute(6, '2001-01-18', "don't");
-};
-$@ =~ /DBD::DtfSQLmac::st execute failed/ ? print "ok 18\n" : print "not ok 18\n";
-print "\n+++\neval error for test 18: \n$@---\n\n" if $verbose;
+# this should work, we don't need to quote "don't" (i.e. 'don''t'), because   
+# that's done internally by the driver
 
-
+$rc = $sth->execute(6, '2001-01-18', q{don't}); 
+$rc ? print "ok 18\n" : print "not ok 18\n"; 
 
 
 # insert a (quoted) question mark, this is not a placeholder !!!
 $sth = $dbh->prepare("INSERT INTO $table (one, two, three) VALUES (?, ?, 'ok ?')");
-$sth->bind_param(1, 6, SQL_INTEGER);
+$sth->bind_param(1, 7, SQL_INTEGER);
 $sth->bind_param(2, '2001-01-18', SQL_VARCHAR);
 $rc = $sth->execute();
-$sth = $dbh->prepare("SELECT * FROM $table WHERE one = 6"); # 
+$sth = $dbh->prepare("SELECT * FROM $table WHERE one = 7"); # 
 $rc = $sth->execute();
 my @row_ary = $sth->fetchrow_array;
 ($row_ary[2] eq 'ok ?') ? print "ok 19\n" : print "not ok 19\n";

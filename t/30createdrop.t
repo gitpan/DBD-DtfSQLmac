@@ -60,7 +60,7 @@ while (Testing()) {
 	($def = TableDefinition($table,
 				["id",   SQL_INTEGER(),  0,  0, $NO_FLAG], # col_name, DBI SQL type, size/precision, scale, flags
 				["name", SQL_VARCHAR(),  64, 0, $NO_FLAG]));
-	print "Creating table:\n$def\n";
+	print "# Creating table:\n# $def\n";
     }
 
 	#

@@ -1,0 +1,61 @@
+*INSTALL.561
+
+
+--------------------------------- NOTE -------------------------------------
+This distribution contains shared libraries, which are loaded dynamically  
+by MacPerl -- well, normally. Currently, dynamic loading of shared libs  
+does NOT work with the MPW MacPerl tool when built with Apple's MrC compiler. 
+However, dynamic loading always works with the MacPerl application and the 
+MacPerl tool when built with the Metrowerks compilers. Hence, those of you 
+who have downloaded a pre-built MacPerl 5.6.1 distribution should have
+no problems. Note also that dynamic loading is NOT supported by the 68K 
+versions of the MacPerl application and tool. 
+----------------------------------------------------------------------------
+
+
+
+
+Installation for new MacPerl 5.6.1 (and higher):
+=================================================
+
+Installation is quite easy. Always install the DBI module first. The pre-built 
+DBI module (version 1.20 as of this writing) for MacPerl 5.6.1 is available from 
+my website at
+
+    http://usemacperl.esmartweb.com//dbi.html
+	
+
+If you are using the MacPerl MPW tool, change directory to ":MacPerl-5.6.1:"
+in the MPW-Shell.
+
+Run the INSTALL.pl script. This should install the modules and the shared 
+library properly. Note that the destination folder by default is
+
+    $ENV{MACPERL}site_perl:
+
+(the "site_perl" folder will be created if need be). However, you are able 
+to override this default. On the console, the install script asks for an 
+alternative destination directory. This should be (or should become) one of 
+your search paths for library modules, or MacPerl might not find the new 
+modules. Simply hit <Return> or <Enter> (MPW-Shell) when the default fits 
+your needs.
+
+After installation, run the test.pl script first, to see if the module loads. 
+Then run the test scripts located in the 't' folder. Some samples are provided 
+in the 'samples' folder, to help you getting started.
+
+
+Important note:
+===============
+This module can only be used in conjunction with the Mac::DtfSQL module, which 
+is part of this distribution. If you use the pre-build version of the Mac::DtfSQL 
+module or you've built the Mac::DtfSQL module as a shared library that depends on 
+the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb', then this module needs to 
+know where the dtF/SQL 2.01 shared library is located on your harddisk. Either 
+put the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb' (or at least an alias to 
+it) in the *same* folder as the shared library 'DtfSQL' built from the extension 
+module (by default, the folder is ':site_perl :MacPPC:auto:Mac:DtfSQL:) or put the 
+dtF/SQL 2.01 shared library in the *system extensions* folder.
+
+
+

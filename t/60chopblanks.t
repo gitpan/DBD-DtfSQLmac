@@ -1,7 +1,7 @@
 #!perl -w
 #
 #
-#   This driver should check whether 'ChopBlanks' works.
+#   This test should check whether 'ChopBlanks' works.
 #
 
 $^W = 1;

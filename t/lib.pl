@@ -401,10 +401,10 @@ sub createTestDB {
 	}	
 	#print "Ok, disconnected.\n";
 		
-  	print "\nDatabase was created successfully.\n",
-          "  Space for index      data: " . $indexSize . " KB\n",
-          "  Space for relational data: " . $relationSize . " KB\n\n",
-		  "You can safely delete it after you've finished testing. \n\n";
+  	print "\n# A test database was created successfully.\n",
+          "#   Space for index      data: " . $indexSize . " KB\n",
+          "#   Space for relational data: " . $relationSize . " KB\n\n",
+		  "# You can safely delete it after you've finished testing. \n\n";
 
 }
 

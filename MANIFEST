@@ -33,8 +33,16 @@ t/lib.pl
 CHANGES
 DtfSQL.pm
 DtfSQL.xs
+INSTALL.5004
+INSTALL.561
 MANIFEST
-MPW.WorkSheet(PPC)
+MacPerl-5.6.1/INSTALL.pl
+MacPerl-5.6.1/Makefile.mk
+MacPerl-5.6.1/blib/lib/DBD/DtfSQLmac.pm
+MacPerl-5.6.1/blib/lib/Mac/DtfSQL.pm
+MacPerl-5.6.1/blib/lib/Mac/DtfSQL.xs
+MacPerl-5.6.1/blib/lib/MacPPC/auto/Mac/DtfSQL/DtfSQL
+MPW.WorkSheet(PPC-5004)
 MacTech_article.html
 Makefile.PL
 README

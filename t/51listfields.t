@@ -80,7 +80,7 @@ while (Testing()) {
     Test($state or (($res = $cursor->{'NUM_OF_FIELDS'}) == @table_def))
 	   or DbiError($cursor->err, $cursor->errstr);
     if (!$state && $verbose) {
-	printf("Number of fields: %s\n", defined($res) ? $res : "undef");
+	printf("# Number of fields: %s\n", defined($res) ? $res : "undef");
     }
 
 	#
@@ -90,9 +90,9 @@ while (Testing()) {
 		    &&  (lc $$ref[1]) eq $table_def[1][0])
 	   or DbiError($cursor->err, $cursor->errstr);
     if (!$state && $verbose) {
-	print "Names:\n";
+	print "# Names:\n";
 	for ($i = 0;  $i < @$ref;  $i++) {
-	    print "    ", $$ref[$i], "\n";
+	    print "#     ", $$ref[$i], "\n";
 	}
     }
 
@@ -103,9 +103,9 @@ while (Testing()) {
 		    &&  !($$ref[1] xor ($table_def[1][4] & $COL_NULLABLE)))
 	   or DbiError($cursor->err, $cursor->errstr);
     if (!$state && $verbose) {
-	print "Nullable:\n";
+	print "# Nullable:\n";
 	for ($i = 0;  $i < @$ref;  $i++) {
-	    print "    ", ($$ref[$i] & $COL_NULLABLE) ? "yes" : "no", "\n";
+	    print "#     ", ($$ref[$i] & $COL_NULLABLE) ? "yes" : "no", "\n";
 	}
     }
 
@@ -115,7 +115,7 @@ while (Testing()) {
 		    &&  ($ref->[0] eq DBI::SQL_INTEGER())
 		    &&  ($ref->[1] eq DBI::SQL_VARCHAR()  ||
 			 $ref->[1] eq DBI::SQL_CHAR())))
-	or printf("Expected types %d and %d, got %s and %s\n",
+	or printf("# Expected types %d and %d, got %s and %s\n",
 		  &DBI::SQL_INTEGER(), &DBI::SQL_VARCHAR(),
 		  defined($ref->[0]) ? $ref->[0] : "undef",
 		  defined($ref->[1]) ? $ref->[1] : "undef");
@@ -141,7 +141,7 @@ while (Testing()) {
 	#
 	### Test 13
     Test($state or ($cursor->{'NUM_OF_FIELDS'} == 0))
-	or !$verbose or printf("NUM_OF_FIELDS is %s, not zero.\n",
+	or !$verbose or printf("# NUM_OF_FIELDS is %s, not zero.\n",
 			       $cursor->{'NUM_OF_FIELDS'});
 	#
 	### Test 14

@@ -30,7 +30,6 @@ if ($@) {
 	exit 10;
 }
 
-
 sub TrueRows($) {
     my ($sth) = @_;
     my $count = 0;

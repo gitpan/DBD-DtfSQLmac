@@ -3,7 +3,7 @@
 # Tests loading of required modules and driver.
 #
 
-BEGIN { $| = 1; $test = 1; print "Test loading of required modules and driver.\n\n1..2\n"; }
+BEGIN { $| = 1; $test = 1; print "# Test loading of required modules and driver.\n\n1..2\n"; }
 END {print "\nnot ok $test\n" unless $loaded;}
 
 # the following two modules are required

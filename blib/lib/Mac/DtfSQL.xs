@@ -10,8 +10,8 @@ extern "C" {
 
 
 /* 
-*  This is the C Part
-*/
+ *  This is the C Part
+ */
 
 #ifndef DTFHDR_H
 #include "dtfhdr.h"
@@ -53,17 +53,17 @@ extern "C" {
 #define is_DECIMAL   5
 
 /* 	Decimal Datatype
-*
-*	typedef struct
-*	{
-*	  unsigned char val[9];
-*	} DTFDECIMAL;
-*/
+ *
+ *	typedef struct
+ *	{
+ *	  unsigned char val[9];
+ *	} DTFDECIMAL;
+ */
 
 
 /*
-*   Help routine
-*/
+ *   Help routine
+ */
 
 
 unsigned long _define_Attribut(int a3, int a2, int a1, int a0)
@@ -72,18 +72,15 @@ unsigned long _define_Attribut(int a3, int a2, int a1, int a0)
 }
 
 
-
-
-
 /*
-*
-*
-*
-*  And now the XS Part
-*
-*
-*
-*/
+ *
+ *
+ *
+ *  And now the XS Part
+ *
+ *
+ *
+ */
 
 MODULE = Mac::DtfSQL		PACKAGE = Mac::DtfSQL
 
@@ -96,7 +93,7 @@ new_decimal(CLASS)
 	PREINIT:
 		short i;
     CODE:
-		RETVAL = (DTFDECIMAL*)malloc( sizeof( DTFDECIMAL ) );
+		New(0, RETVAL, 1, DTFDECIMAL);
 		if( RETVAL == NULL ) {
 			warn("unable to allocate DTFDECIMAL");
 			XSRETURN_UNDEF;
@@ -113,9 +110,9 @@ void
 DESTROY(self)
 		DTFDECIMAL *self
     CODE:
-		free( (char*)self );
+		Safefree(self);
 
-		
+
 
 unsigned short
 from_string(pDEC, strDEC)
@@ -128,7 +125,7 @@ from_string(pDEC, strDEC)
 		RETVAL = (! err) ? 1 : 0; /* in Perl, a valid result (DTF_ERR_OK = 0) will be indicated by 1 */
     OUTPUT:
 		RETVAL
-		
+
 
 
 unsigned short
@@ -141,7 +138,7 @@ from_long(pDEC, longVal)
 		err = dtFlongToDecimal(0, longVal, pDEC);
 		RETVAL = (! err) ? 1 : 0; /* in Perl, a valid result (DTF_ERR_OK = 0) will be indicated by 1 */
     OUTPUT:
-		RETVAL		
+		RETVAL
 
 
 
@@ -166,8 +163,8 @@ to_double(pDEC)
 		RETVAL = DtfDecToDouble(*pDEC);
     OUTPUT:
 		RETVAL
-		
-		
+
+
 
 unsigned short
 is_valid(pDEC)
@@ -176,6 +173,7 @@ is_valid(pDEC)
 		RETVAL = DtfDecIsValid(*pDEC);
     OUTPUT:
 		RETVAL
+
 
 
 unsigned short
@@ -191,7 +189,8 @@ assign(pDEC, copyfromDEC)
 		RETVAL = 1; /* in Perl, a valid result will be indicated by 1 */
     OUTPUT:
 		RETVAL
-		
+
+
 
 unsigned short
 abs(pDEC)
@@ -203,6 +202,7 @@ abs(pDEC)
 		RETVAL = (! err) ? 1 : 0; /* in Perl, a valid result (DTF_ERR_OK = 0) will be indicated by 1 */
     OUTPUT:
 		RETVAL
+
 
 
 unsigned short
@@ -236,6 +236,7 @@ sub(pDEC, subDEC)
 		
 
 
+
 unsigned short
 div(pDEC, divDEC)
 		DTFDECIMAL *pDEC
@@ -250,7 +251,7 @@ div(pDEC, divDEC)
     OUTPUT:
 		RETVAL
 
-		
+
 
 unsigned short
 mul(pDEC, mulDEC)
@@ -277,6 +278,7 @@ get_scale(pDEC)
 		RETVAL
 
 
+
 unsigned short
 set_scale(pDEC, scale)
 		DTFDECIMAL 	*pDEC
@@ -288,7 +290,8 @@ set_scale(pDEC, scale)
 		RETVAL = (! err) ? 1 : 0; /* in Perl, a valid result (DTF_ERR_OK = 0) will be indicated by 1 */
     OUTPUT:
 		RETVAL
-		
+
+
 
 unsigned char
 equal(pDEC, compDEC)
@@ -309,9 +312,9 @@ greater(pDEC, compDEC)
 		RETVAL = DtfDecGreater(*pDEC, *compDEC); /* pDEC > compDEC ? */
     OUTPUT:
 		RETVAL
-		
-		
-		
+
+
+
 unsigned char
 greater_equal(pDEC, compDEC)
 		DTFDECIMAL 	*pDEC
@@ -319,8 +322,7 @@ greater_equal(pDEC, compDEC)
 	CODE:
 		RETVAL = DtfDecGreaterOrEqual(*pDEC, *compDEC); /* pDEC >= compDEC ? */
     OUTPUT:
-		RETVAL		
-		
+		RETVAL
 
 
 
@@ -332,9 +334,9 @@ less(pDEC, compDEC)
 		RETVAL = DtfDecLess(*pDEC, *compDEC); /* pDEC < compDEC ? */
     OUTPUT:
 		RETVAL
-		
-		
-	
+
+
+
 unsigned char
 less_equal(pDEC, compDEC)
 		DTFDECIMAL 	*pDEC
@@ -343,12 +345,12 @@ less_equal(pDEC, compDEC)
 		RETVAL = DtfDecLessOrEqual(*pDEC, *compDEC); /* pDEC <= compDEC ? */
     OUTPUT:
 		RETVAL		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 
 
 unsigned short
@@ -365,7 +367,8 @@ DtfTraExecute (htra, sqlString, reqClass, nrAffectedRecords, hres)
 		nrAffectedRecords
 		hres 
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfTraExecuteUpdate (htra, sqlString, nrAffectedRecords)
@@ -377,9 +380,9 @@ DtfTraExecuteUpdate (htra, sqlString, nrAffectedRecords)
 	OUTPUT:
 		nrAffectedRecords 
 		RETVAL
-		
 
-		
+
+
 unsigned short 
 DtfTraExecuteQuery (htra, sqlString, restype, hres)
 		int		      	htra		
@@ -391,7 +394,8 @@ DtfTraExecuteQuery (htra, sqlString, restype, hres)
 	OUTPUT:
 		hres 
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfEnvCreate (henv)
@@ -401,7 +405,8 @@ DtfEnvCreate (henv)
 	OUTPUT:
 		henv
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfConCreate (henv, connectSpec, flags, hcon)
@@ -414,7 +419,8 @@ DtfConCreate (henv, connectSpec, flags, hcon)
 	OUTPUT:
 		hcon 
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfConQueryStatus (hcon, connected, dbExists, dbConsistent)
@@ -433,7 +439,7 @@ DtfConQueryStatus (hcon, connected, dbExists, dbConsistent)
 		dbExists		if (want_dbExists)		{sv_setiv(ST(2), (IV)dbExists);}
 		dbConsistent	if (want_dbConsistent)	{sv_setiv(ST(3), (IV)dbConsistent);}
 		RETVAL
-		
+
 
 
 unsigned short 
@@ -453,6 +459,7 @@ DtfConCreateDatabase (hcon, admUserName, admPassWord, ratioIndRel, maxSize, inde
 		RETVAL
 
 
+
 unsigned short 
 DtfConDeleteDatabase (hcon)
 		int hcon
@@ -460,7 +467,8 @@ DtfConDeleteDatabase (hcon)
 		RETVAL = DtfConDeleteDatabase (hcon);
 	OUTPUT:
 		RETVAL
-				
+
+
 
 unsigned short 
 DtfConRecoverDatabase (hcon)
@@ -482,7 +490,6 @@ DtfConConnect (hcon, userName, passWord)
 	OUTPUT:
 		RETVAL
 
-
 int
 DtfConQueryEnvHandle (hcon)
 		int hcon
@@ -491,7 +498,8 @@ DtfConQueryEnvHandle (hcon)
 	OUTPUT:
 		RETVAL
 
-		
+
+
 unsigned long 
 DtfConDataLocationCount (hcon)
 		int hcon
@@ -499,6 +507,7 @@ DtfConDataLocationCount (hcon)
 		RETVAL = DtfConDataLocationCount (hcon);
 	OUTPUT:
 		RETVAL
+
 
 
 const char * 
@@ -515,6 +524,7 @@ DtfConDataLocation (hcon, fileIndex, maxSize, size)
 		RETVAL
 
 
+
 unsigned short 
 DtfConChangeDataLocation (hcon, fileIndex, newFileName)
 		int hcon
@@ -524,6 +534,7 @@ DtfConChangeDataLocation (hcon, fileIndex, newFileName)
 		RETVAL = DtfConChangeDataLocation (hcon, fileIndex, newFileName);
 	OUTPUT:
 		RETVAL
+
 
 
 unsigned short 
@@ -539,6 +550,7 @@ DtfConAddDataLocation (hcon, fileName, maxSize, fileIndex)
 		RETVAL
 
 
+
 unsigned short
 DtfConRemoveDataLocation (hcon, fileIndex)
 		int hcon
@@ -547,6 +559,7 @@ DtfConRemoveDataLocation (hcon, fileIndex)
 		RETVAL = DtfConRemoveDataLocation (hcon, fileIndex);
 	OUTPUT:
 		RETVAL		
+
 
 
 unsigned short 
@@ -558,7 +571,8 @@ DtfTraCreate (hcon, htra)
 	OUTPUT:
 		htra 
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfHdlGetError ( hdl, code, msg, group, errpos)
@@ -580,7 +594,8 @@ DtfHdlGetError ( hdl, code, msg, group, errpos)
 		group
 		errpos
 		RETVAL
-		
+
+
 
 unsigned long 
 DtfResColumnCount (hres)
@@ -591,6 +606,7 @@ DtfResColumnCount (hres)
 		RETVAL
 
 
+
 unsigned long 
 DtfResRowCount (hres)
 		int hres
@@ -598,7 +614,8 @@ DtfResRowCount (hres)
 		RETVAL = DtfResRowCount (hres);
 	OUTPUT:
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfColCreate (hres, colIndex, hcol) 
@@ -610,7 +627,7 @@ DtfColCreate (hres, colIndex, hcol)
 	OUTPUT:
 		hcol
 		RETVAL
-		
+
 
 
 unsigned long
@@ -668,8 +685,9 @@ DtfHdlEnumAttribute (hdl, index, pAttr)
 	OUTPUT:
 		pAttr
 		RETVAL
-	
-	
+
+
+
 unsigned short 
 DtfHdlQueryAttribute (hdl, attr, pvalue)
 		int hdl
@@ -703,7 +721,6 @@ DtfHdlQueryAttribute (hdl, attr, pvalue)
 	OUTPUT:
 		pvalue	if (islongType) {sv_setiv(ST(2), (IV) longValue);} else {sv_setpv((SV*)ST(2), pvalue);} /* on one line, or xsubpp will complain */
 		RETVAL
-
 
 
 
@@ -742,7 +759,6 @@ DtfAttrQueryInfo (attr, type, defaultVal, rangeSpec)
 
 
 
-
 const char * 
 DtfColTableName (hcol)
 		int hcol
@@ -750,7 +766,7 @@ DtfColTableName (hcol)
 		RETVAL = DtfColTableName (hcol);
 	OUTPUT:
 		RETVAL
-		
+
 
 
 const char * 
@@ -760,7 +776,8 @@ DtfColName (hcol)
 		RETVAL = DtfColName (hcol);
 	OUTPUT:
 		RETVAL
-		
+
+
 
 unsigned short 
 DtfColDestroy (hcol)
@@ -770,8 +787,9 @@ DtfColDestroy (hcol)
 	OUTPUT:
 		hcol
 		RETVAL
-		
-		
+
+
+
 unsigned short 
 DtfResMoveToFirstRow (hres)
 		int hres
@@ -792,7 +810,6 @@ DtfResMoveToNextRow (hres)
 
 
 
-
 unsigned short 
 DtfResMoveToRow (hres, rowIndex)
 		int hres
@@ -801,9 +818,8 @@ DtfResMoveToRow (hres, rowIndex)
 		RETVAL = DtfResMoveToRow (hres, rowIndex);
 	OUTPUT:
 		RETVAL
-		
-		
-	
+
+
 
 unsigned short
 DtfResQueryFieldInfo (hres, colIndex , fieldSize, isNull)
@@ -819,7 +835,6 @@ DtfResQueryFieldInfo (hres, colIndex , fieldSize, isNull)
 		RETVAL
 
 
-		
 
 unsigned short 
 DtfResGetField (hres, colIndex, requestType, fieldVal, isNull, fieldCType)
@@ -854,7 +869,7 @@ DtfResGetField (hres, colIndex, requestType, fieldVal, isNull, fieldCType)
 						returnType = is_ULONG;
 						break;
 
-					case DTF_CT_BOOL:	/* return as long int */
+					case DTF_CT_BOOL:	/* return as (long) int */
 					case DTF_CT_CHAR:
 					case DTF_CT_UCHAR:
 					case DTF_CT_SHORT:
@@ -873,7 +888,7 @@ DtfResGetField (hres, colIndex, requestType, fieldVal, isNull, fieldCType)
 					
 					case DTF_CT_DECIMAL: /* return a DTFDECIMAL object */	
 						RETVAL = DtfResGetField (hres, colIndex, requestType, intern_buf, sizeof(intern_buf), &isNull);
-						decimalValue = (DTFDECIMAL*)malloc( sizeof( DTFDECIMAL ) );
+						New(0, decimalValue, 1, DTFDECIMAL);
 						for (i = 0; i < 9; i++) {
 							decimalValue->val[i] = (unsigned char) intern_buf[i];
 						}
@@ -918,13 +933,13 @@ DtfResGetField (hres, colIndex, requestType, fieldVal, isNull, fieldCType)
 							sv_setnv(ST(3), (double)doubleValue);					\
 							break;													\
 						case is_ULONG: /* return long */							\
-							sv_setiv(ST(3), (IV)ulongValue);						\
+							sv_setuv(ST(3), (UV)ulongValue);						\
 							break;													\
 					} /* switch */
 		isNull
 		RETVAL
 
-		
+
 
 unsigned short 
 DtfResDestroy (hres)
@@ -934,7 +949,8 @@ DtfResDestroy (hres)
 	OUTPUT:
 		hres
 		RETVAL	
-	
+
+
 
 unsigned short 
 DtfTraDestroy (htra)
@@ -944,7 +960,8 @@ DtfTraDestroy (htra)
 	OUTPUT:
 		htra
 		RETVAL
-		
+
+
 
 int
 DtfTraQueryConHandle (htra)
@@ -964,7 +981,7 @@ DtfConDestroy (hcon)
 	OUTPUT:
 		hcon
 		RETVAL
-		
+
 
 
 unsigned short 
@@ -985,7 +1002,7 @@ DtfEnvDestroy (henv)
 	OUTPUT:
 		henv
 		RETVAL
-		
+
 
 
 unsigned long 
@@ -998,7 +1015,6 @@ _define_Attribut(a3, a2, a1, a0)
 		RETVAL = _define_Attribut(a3, a2, a1, a0);
 	OUTPUT:
 		RETVAL
-
 
 
 
@@ -1039,7 +1055,6 @@ dtf_connect (dsn, user, pass)
     		// return ( $henv, $hcon, $htra, $err, $errstr );
   		}
 
-
   		//  When the environment handle (henv) was created successfully,  a connection handle
   		//  can be created as the environment handle's *dependent* handle.
   		// 
@@ -1073,12 +1088,12 @@ dtf_connect (dsn, user, pass)
 			PUSHs(sv_2mortal(newSViv(err)));  /* error code */
 			PUSHs(sv_2mortal(newSVpv(errstr, 0))); /* error message, let Perl determine the length */
     		XSRETURN(5); /* return from XSUB */
-	
+
 			//return ( $henv, $hcon, $htra, $err, $errstr );
   		}
-  
+
   		//  This function queries some information about the just established connection
-	
+
   		if ( (err = DtfConQueryStatus(hcon, NULL, &dbExists, &dbConsistent) ) != DTF_ERR_OK) {
     		errstr = "ERROR(dtf_connect): Can't query connection status"; 
 			// clear up things
@@ -1124,14 +1139,14 @@ dtf_connect (dsn, user, pass)
 
   		// NOTE
   		// 	The following has only been tested locally (single-user), since the dtf/SQL server doesn't work
-  		//     as expected and a network connection currently isn't possible.
+  		//  as expected and a network connection currently isn't possible.
 
   		// If the database you want to connect to is already in connected state by another program, dbConsistent
   		// will be set to false (not consistent). dbConsistent is also false if the database needs recovery. The
   		// best thing we can do, is trying to recover the database. If this fails, either the database can't be
   		// recovered (because its badly damaged), or the database is already in connected state (but not 
   		// inconsistent). Because we cannot distinguish between these cases, the error message mentions both.
-  
+
   		if (! dbConsistent) {
 			if (! network) {
     			//  In single-user version we try to recover the database
@@ -1205,7 +1220,6 @@ dtf_connect (dsn, user, pass)
   			//return ( $henv, $hcon, $htra, $err, $errstr );
   		}
 
-
   		//  We are connected, now create a transaction we are able
   		//  to execute SQL statements with.
 
@@ -1213,7 +1227,6 @@ dtf_connect (dsn, user, pass)
   		// 	The maximum number of concurrent transactions may be modified by
   		// 	setting the connection handle attribute DTF_CAT_TRANSACTIONS. The
   		// 	default value of this attribute is 1.
-  
   
   		if (err = DtfTraCreate( hcon, &htra ) != DTF_ERR_OK) {
     		errstr = "ERROR(dtf_connect): Can't create transaction";	
@@ -1236,7 +1249,6 @@ dtf_connect (dsn, user, pass)
 			//return ( $henv, $hcon, $htra, $err, $errstr );
   		}
   
-  
  		// everything is fine here
 		
 		EXTEND(SP, 5); /* extend Perl stack for 5 SVs (return values) */
@@ -1250,8 +1262,6 @@ dtf_connect (dsn, user, pass)
  		//return ( $henv, $hcon, $htra, $err, $errstr );
   
 		} // end PPCODE
-
-
 
 
 

@@ -13,7 +13,8 @@
 
 # (2a) Set the MPW variable 'MPSrc' to the path to your MacPerl_Src folder, for example     
 
-Set MPSrc "MacintoshHD:MacPerl_Src"     # (change the path accordingly)
+Set MPSrc "MacintoshHD:MacPerl_Src_5.004"     # (change the path accordingly)
+
 
 
 # (2b) Set the MPW variable'dtFSrc' to the path to your dtF/SQL 2.01 distribution folder
@@ -24,10 +25,13 @@ Set dtFSrc "MacintoshHD:dtF_SQL"     # (change the path accordingly)
 
 
 
+
 # (3) Run the XSUBpp compiler for DtfSQL.xs 
 #     (Credits to Dean Roehrich for the perlobject.map typemap.)
 
 perl :::lib:ExtUtils:xsubpp -typemap :::lib:ExtUtils:typemap -typemap :typemap -typemap :perlobject.map DtfSQL.xs >DtfSQL.tc && Rename -y DtfSQL.tc DtfSQL.c
+
+
 
 
 
@@ -54,8 +58,6 @@ MrC -inclpath ignoresys -sym off -d __STD_C -d MULTIPLICITY -d DTFMAC -w off -op
 
 
 
-
-
 # (6) Open the file which contains a list of the shared library's exported entry points (symbols).
 #     Delete every line except the last, which is:
 #      
@@ -64,7 +66,6 @@ MrC -inclpath ignoresys -sym off -d __STD_C -d MULTIPLICITY -d DTFMAC -w off -op
 #     Be sure to save your changes.
 
 open DtfSQL.exp
-
 
 
 

@@ -28,7 +28,7 @@ $drh = DBI->install_driver(DtfSQLmac);
 if ($drh->{Version}) {
     print "ok 5\n";
     if ($verbose) {
-	print "Driver version is ", $drh->{Version}, "\n";
+	print "# Driver version is ", $drh->{Version}, "\n";
     }
 }
 

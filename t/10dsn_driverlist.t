@@ -19,7 +19,7 @@ if ($@) {
 	exit 10;
 }
 
-print "Driver is $mdriver\n";
+print "# Driver is $mdriver\n";
 
 
 #
@@ -32,15 +32,15 @@ while (Testing()) {
     Test($state or (@dr_ary = DBI->available_drivers) >= 0);
     if (!$state) {
 		my $d;
-		print "List of available DBI drivers:\n";
+		print "# List of available DBI drivers:\n";
 		$found = 0;
 		foreach $driver (@dr_ary) {
-			print "    $driver\n";
+			print "#     $driver\n";
 			if ($driver eq "$mdriver") {
 				$found = 1;
 			}
 		}
-		print "List ends.\n";
+		print "# List ends.\n";
 	}
 
 	#
@@ -48,7 +48,7 @@ while (Testing()) {
 	Test($state or $found);
 	if (!$state) {
 		if (! $found) {
-			print "\nThe DBD::$mdriver driver is not installed.\n";
+			print "\n# The DBD::$mdriver driver is not installed.\n";
 		}
     }
 	
@@ -57,15 +57,15 @@ while (Testing()) {
     Test($state or (@dsn = DBI->data_sources($mdriver)) >= 0);
     if (!$state) {
 		my $d;
-		print "List of $mdriver data sources:\n";
+		print "# List of $mdriver data sources:\n";
 		if (! @dsn) {
-			print "    No database found.\n";
+			print "#     No database found.\n";
 		} else {
 			foreach $d (@dsn) {
-	    		print "    dtF/SQL database found. DSN = $d\n";
+	    		print "#     dtF/SQL database found. DSN = $d\n";
 			}#for
 		}#if
-		print "List ends.\n";
+		print "# List ends.\n";
     }
 
 }
