@@ -1,7 +1,7 @@
 #
 #   DBD::DtfSQLmac - A DBI driver for the dtF/SQL database engine, Macintosh edition
 #
-#   This module is Copyright (C) 2000-2001 by
+#   This module is Copyright (C) 2000-2002 by
 #
 #       Thomas Wegner
 #
@@ -24,7 +24,7 @@ require 5.004;
 
     use DBI 1.08;
     
-    $DBD::DtfSQLmac::VERSION = '0.2201';
+    $DBD::DtfSQLmac::VERSION = '0.3201';
 
     $DBD::DtfSQLmac::err = 0;           # holds error code   for DBI::err
     $DBD::DtfSQLmac::errstr = "";       # holds error string for DBI::errstr
@@ -1141,7 +1141,12 @@ require 5.004;
         return $DBD::DtfSQLmac::st::_num            if $dbi_type == DBI::SQL_DOUBLE();      
         return $DBD::DtfSQLmac::st::_num            if $dbi_type == DBI::SQL_TINYINT();     
         return $DBD::DtfSQLmac::st::_num            if $dbi_type == DBI::SQL_SMALLINT();
-        return $DBD::DtfSQLmac::st::_num            if $dbi_type == DBI::SQL_BIGINT();
+		
+		# return $DBD::DtfSQLmac::st::_num          if $dbi_type == DBI::SQL_BIGINT();
+		# DBI::SQL_BIGINT() (temporary ?) omitted as of DBI 1.21
+		# we now return $DBD::DtfSQLmac::st::_other to indicate that SQL_BIGINT is 
+        # an unsupported DBI SQL type constant
+
       
         # other string types (must be quoted) 
         
@@ -1154,7 +1159,8 @@ require 5.004;
         return $DBD::DtfSQLmac::st::_blob           if $dbi_type == DBI::SQL_BINARY();
         return $DBD::DtfSQLmac::st::_blob           if $dbi_type == DBI::SQL_VARBINARY();
         return $DBD::DtfSQLmac::st::_blob           if $dbi_type == DBI::SQL_LONGVARBINARY();
-        
+        		
+
         return $DBD::DtfSQLmac::st::_other; # otherwise
 
     }# _number_or_string    
@@ -1188,9 +1194,14 @@ require 5.004;
         #   SQL_LONGVARBINARY
         # are not supported at all.
         
+		# SQL_BIGINT (temporary ?) omitted as of DBI 1.21
+		# Hence we no longer support it and don't provide a mapping.
+		# return DBI::SQL_INTEGER()           	if $dbi_type == DBI::SQL_BIGINT();
+
+				
         # numeric types
-        return DBI::SQL_INTEGER()               if $dbi_type == DBI::SQL_BIGINT();
-        return DBI::SQL_DECIMAL()               if $dbi_type == DBI::SQL_NUMERIC();     
+		 
+		return DBI::SQL_DECIMAL()               if $dbi_type == DBI::SQL_NUMERIC();     
         return DBI::SQL_DOUBLE()                if $dbi_type == DBI::SQL_FLOAT();
         return DBI::SQL_DOUBLE()                if $dbi_type == DBI::SQL_REAL();
      
@@ -1981,13 +1992,13 @@ DBD::DtfSQLmac - A DBI driver for the dtF/SQL 2.01 database engine, Macintosh ed
 
   MacPerl 5.2.0r4 (5.004)
   DBI 1.08 (Mac build for MacPerl 5.2.0r4)
-  Mac::DtfSQL 0.2201 (part of the distribution)
+  Mac::DtfSQL 0.3201 (part of the distribution)
 
 =head2 For MacPerl 5.6.1 (and higher)
 
   MacPerl >= 5.6.1
   DBI >= 1.08 (Mac build for MacPerl 5.6.1)
-  Mac::DtfSQL 0.2201 (part of the distribution)
+  Mac::DtfSQL 0.3201 (part of the distribution)
 
 
 =head1 DESCRIPTION
@@ -2026,57 +2037,58 @@ how to get it.
 
 =head1 INSTALLATION
 
-=head2 Installation for old MacPerl 5.2.0r4:
+=head2 Installation for MacPerl 5.2.0r4
 
-First, install the Mac build of the DBI 1.08 module, available from the MacPerl Module Porters Page at 
-http://pudge.net/mmp/. As with every module, use Chris Nandor's B<installme.plx> droplet for installation. This 
+First, install the Mac build of the DBI 1.08 module, available from the MacPerl Module Porters Page 
+(http://dev.macperl.org/mmp/). As with every module, use Chris Nandor's B<installme.plx> droplet for installation. This 
 installer is part of the cpan-mac-0.50 module, available from CPAN (http://www.perl.com/CPAN-local/authors/id/CNANDOR/) 
 or via Chris Nandor's MacPerl page: http://pudge.net/macperl/.
 
-After you've installed the DBI module, simply drop the packed archive C<DBD-DtfSQLmac-0.2201.tar.gz> or the
-unpacked folder C<DBD-DtfSQLmac-0.2201> on the installme.plx droplet. Answer the upcoming question "Convert 
-all text and MacBinary files?" with "Yes". This should install the module properly. To be sure, run the C<test.pl> 
-script first, to see if the module loads. Then run the test scripts located in the 'C<t>' folder. Some samples are
-provided in the 'C<samples>' folder, to help you getting started.
+After you've installed the DBI module, simply drop the packed archive C<DBD-DtfSQLmac-0.3201.tar.gz> or the
+unpacked folder C<DBD-DtfSQLmac-0.3201> on the installme.plx droplet. Answer the upcoming question "Convert 
+all text and MacBinary files?" with "Yes". This should install the module properly. 
+
+Afterwards, you have to install the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb'
+by hand. The dtF/SQL 2.01 shared library comes with the distribution that you have
+to download from sLAB's web site (see the README document or DtfSQL.pm for details).
+Either put the 'dtFPPCSV2.8K.shlb' shared library (or at least an alias to it) in 
+the SAME folder as the shared library 'DtfSQL' that comes with this module (by 
+default, this folder is ':site_perl:MacPPC:auto:Mac:DtfSQL:) or put the dtF/SQL 2.01 
+shared library in the System Extensions folder. This is crucial since this module 
+can only be used in conjunction with the dtF/SQL 2.01 shared library.
+
+To be sure that everything is ok and the module loads properly, run the test.pl script 
+first. Then run the test scripts located in the 't' folder. Some samples are provided 
+in the 'samples' folder, to help you getting started.
 
 More details may be found in the INSTALL.5004 document.
 
-=head2 Installation for new MacPerl 5.6.1 (and higher):
+=head2 Installation for MacPerl 5.6.1 (and higher)
 
-Always install the the DBI module first. The pre-built DBI module (version 1.20 as of this writing) for MacPerl 5.6.1 
-is available from my website at
+Always install the the DBI module first. The pre-built DBI module (version 1.21 as of this writing) 
+for MacPerl 5.6.1 is available via the MacPerl Module Porters page (http://dev.macperl.org/mmp/). 
+As with every module, use the installme.plx droplet for installation. This droplet is part of 
+the MacPerl 5.6.1 distribution. 
 
-    http://usemacperl.webjump.com/dbi.html
-    
+After you've installed the DBI module, simply drop the DBD-DtfSQLmac-0.3201.tar.gz 
+packed archive or the unpacked folder DBD-DtfSQLmac-0.3201 on the installme.plx 
+droplet. Answer the upcoming question "Convert all text and MacBinary files?" with 
+"Yes". This should install the module properly. 
 
-If you are using the MacPerl MPW tool, change directory to ":MacPerl_5.6.1:" in the MPW_Shell.
+Afterwards, you have to install the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb'
+by hand. The dtF/SQL 2.01 shared library comes with the distribution that you have
+to download from sLAB's web site (see the README document or DtfSQL.pm for details).
+Either put the 'dtFPPCSV2.8K.shlb' shared library (or at least an alias to it) in 
+the SAME folder as the shared library 'DtfSQL' that comes with this module (by 
+default, this folder is ':site_perl:MacPPC:auto:Mac:DtfSQL:) or put the dtF/SQL 2.01 
+shared library in the System Extensions folder. This is crucial since this module 
+can only be used in conjunction with the dtF/SQL 2.01 shared library.
 
-Run the INSTALL.pl script. This should install the modules and the shared library properly. Note that the destination 
-folder by default is
-
-    $ENV{MACPERL}site_perl:
-
-(the "site_perl" folder will be created if need be). However, you are able to override this default. On the console, 
-the install script asks for an alternative destination directory. This should be (or should become) one of your search 
-paths for library modules, or MacPerl might not find the new modules. Simply hit <Return> or <Enter> (MPW-Shell) when 
-the default fits your needs.
-
-After installation, run the C<test.pl> script first, to see if the module loads. Then run the test scripts located in the 
-'C<t>' folder. Some samples are provided in the 'C<samples>' folder, to help you getting started.
+To be sure that everything is ok and the module loads properly, run the test.pl script 
+first. Then run the test scripts located in the 't' folder. Some samples are provided 
+in the 'samples' folder, to help you getting started.
 
 More details may be found in the INSTALL.561 document.
-
-=head2 Important note 
-
-This module can only be used in conjunction with the Mac::DtfSQL module, which is part of
-this distribution. If you use the pre-build version of the Mac::DtfSQL module or you've built the 
-Mac::DtfSQL module as a shared library that depends on the dtF/SQL 2.01 shared library C<dtFPPCSV2.8K.shlb>, 
-then this module needs to know where the dtF/SQL 2.01 shared library is located on your harddisk. Either put 
-the dtF/SQL 2.01 shared library C<dtFPPCSV2.8K.shlb> (or at least an alias to it) in the *same* folder as the 
-shared library C<DtfSQL> built from the extension module (by default the folder is 
-C<:site_perl:MacPPC:auto:Mac:DtfSQL:>) or put the dtF/SQL 2.01 shared library in the *system extensions* folder.
-
-See the Mac::DtfSQL module documentation for a description on how to get the dtF/SQL 2.01 database engine.
 
 
 =head1 MEMORY REQUIREMENTS
@@ -2139,8 +2151,8 @@ the dtF/SQL database engine.
                     ) || die "Can't connect to database: " . DBI->errstr;
 
 Generally, works as expected. Please note that the DtfSQLmac driver is limited to one connection at  
-a time. You will get an error message, if you try to establish a second connection to the *same* or 
-*another* database.
+a time. You will get an error message, if you try to establish a second connection to the B<same> or 
+B<another> database.
 
 The AutoCommit and PrintError attributes for each connection default to on (see below and in the DBI.pm pod
 for more information regarding the AutoCommit and PrintError attributes). However, it is B<strongly recommended> 
@@ -2290,7 +2302,7 @@ work like expected:
 
 =item B<CompatMode> (boolean, inherited) ,
 
-=item B<InactiveDestroy> (boolean) ,    *Not used* by DBD::DtfSQLmac
+=item B<InactiveDestroy> (boolean) ,    *Not used by DBD::DtfSQLmac*
 
 =item B<PrintError> (boolean, inherited) ,
 
@@ -2298,9 +2310,9 @@ work like expected:
 
 =item B<ChopBlanks> (boolean, inherited) ,
 
-=item B<LongReadLen> (unsigned integer, inherited) ,    *Not supported* by DBD::DtfSQLmac
+=item B<LongReadLen> (unsigned integer, inherited) ,    *Not supported by DBD::DtfSQLmac*
 
-=item B<LongTruncOk> (boolean, inherited) ,    *Not supported* by DBD::DtfSQLmac
+=item B<LongTruncOk> (boolean, inherited) ,    *Not supported by DBD::DtfSQLmac*
 
 =item B<Taint> (boolean, inherited) 
 
@@ -2355,7 +2367,7 @@ Work as expected.
 
 =item B<table_info>
 
-*Not supported*
+Not supported.
 
 =item B<tables> 
 
@@ -2429,7 +2441,7 @@ Work as expected.
 
 =item B<RowCacheSize>  (integer)    
 
-*Not supported*
+Not supported.
 
 =item B<dtf_commit_on_disconnect> (boolean)
 
@@ -2448,7 +2460,7 @@ or, after you've created a database handle $dbh, set its value as usual with
     $dbh->{dtf_commit_on_disconnect} = 1;
 
 The default value is 0, that is, no automatic commit on disconnect. Don't mistake this attribute with the I<AutoCommit>
-attribute, which specifies whether (or not) *each statement* should automatically be committed.
+attribute, which specifies whether (or not) B<each statement> should automatically be committed.
 
 S< >
 
@@ -2486,7 +2498,7 @@ done internally by the driver. E.g. don't make a call like
     $sth->execute($dbh->quote($firstname)); # don't do that !
 
 [ Side-note: Due to the dtF/SQL quoting rules, where a single quotation mark must be doubled if you want 
-to insert it as data (e.g. don't must be quoted as 'don''t'), a valid SQL statement has an *even* number 
+to insert it as data (e.g. don't must be quoted as 'don''t'), a valid SQL statement has an B<even> number 
 of single quotes (or pairs of quotes, if you like). The execute method will check this and raise an error, 
 if the quotes don't occur in pairs. ]
 
@@ -2534,10 +2546,9 @@ DtfSQLmac driver supports the following ten DBI SQL type constants:
     SQL_TIME        (string type) 
     SQL_TIMESTAMP   (string type)
 
-While the other defined DBI SQL type numbers
+While the four following defined DBI SQL type numbers
 
     SQL_LONGVARCHAR -> SQL_VARCHAR
-    SQL_BIGINT      -> SQL_INTEGER
     SQL_NUMERIC     -> SQL_DECIMAL
     SQL_FLOAT       -> SQL_DOUBLE
     SQL_REAL        -> SQL_DOUBLE
@@ -2549,7 +2560,13 @@ data types (blob)
     SQL_VARBINARY
     SQL_LONGVARBINARY 
     
-and B<any other> DBI SQL type constant found in more recent versions of the DBI module are B<not supported> at all. You 
+and 
+
+    SQL_BIGINT (omitted/deprecated as of DBI 1.21)
+	
+are not supported at all. (Note that SQL_BIGINT was formerly mapped to SQL_INTEGER, but beginning with version
+0.3201 of this module this mapping is no longer provided, since DBI 1.21 omitted SQL_BIGINT.) Likewise, B<any 
+other> DBI SQL type constant found in more recent versions of the DBI module are not supported at all. You 
 will get an error message if you specify one of these constants.
 
 B<Please note:> With the DtfSQLmac driver, we always retrieve field values as string. This is done even for field values that have
@@ -2566,7 +2583,7 @@ See also the section on Placeholders and Bind Values in the DBI documentation fo
 
 =item B<bind_param_inout>   
 
-*Not supported*
+Not supported.
 
 =item B<execute,>
 
@@ -2630,7 +2647,7 @@ The number of parameters (placeholders) in the prepared statement.
 Number of fields (columns) the prepared statement will return. Non-select statements will have NUM_OF_FIELDS == 0.
 
 
-=item B<NAME>  (array-ref, read-only)    *Valid after execute*      
+=item B<NAME>  (array-ref, read-only)    *Valid after execute*     
 
 Returns a reference to an array of field names for each result set's column. The names may contain spaces but should 
 not be truncated or have any trailing space. Note that the names have the letter case (upper, lower or mixed) as 
@@ -2641,7 +2658,7 @@ defined in the CREATE TABLE statement. Portable applications should use NAME_lc 
 Undef for non-select statements.
 
 
-=item B<NAME_lc>  (array-ref, read-only)    *Valid after execute*   
+=item B<NAME_lc>  (array-ref, read-only)    *Valid after execute*  
 
 Like NAME in the  manpage but always returns lowercase names. 
 
@@ -2651,7 +2668,7 @@ Like NAME in the  manpage but always returns lowercase names.
 Like NAME in the  manpage but always returns uppercase names. 
 
 
-=item B<dtf_table>  (array-ref, read-only) *Valid after execute*
+=item B<dtf_table>  (array-ref, read-only) *Valid after execute
 
 This is a B<private> driver statement handle attribute (as indicated by the starting phrase dtf_). As a convenience
 for the user, it returns a reference to an array of corresponding table names for each result set's column. Thus, 
@@ -2712,9 +2729,9 @@ shown in the following table.
     SQL_TIME           |   TIME                        |   String: hh:mm:ss[.fff] (24 hour) *** 
     SQL_TIMESTAMP      |   TIMESTAMP                   |   String: yyyy-mm-dd hh:mm:ss[.fff] ***
                        |                               |
-    SQL_BINARY         |   BIT   *not supported*       |   char[] *not supported* 
-    SQL_VARBINARY      |   BIT   *not supported*       |   char[] *not supported* 
-    SQL_LONGVARBINARY  |   BIT   *not supported*       |   char[] *not supported* 
+    SQL_BINARY         |   BIT   (not supported)       |   char[]   (not supported) 
+    SQL_VARBINARY      |   BIT   (not supported)       |   char[]   (not supported) 
+    SQL_LONGVARBINARY  |   BIT   (not supported)       |   char[]   (not supported) 
 
 
  *   As used in a CREATE TABLE statement
@@ -2732,7 +2749,7 @@ C<type_info_all()> method.
 Undef for non-select statements.
 
 
-=item B<PRECISION>  (array-ref, read-only)    *Valid after execute* 
+=item B<PRECISION>  (array-ref, read-only)    *Valid after execute*
 
 Returns a reference to an array of integer values for each result set's column. Depending on the TYPE of the column, 
 the following values are returned:
@@ -2765,7 +2782,7 @@ the following values are returned:
                     (yyyy-mm-dd hh:mm:ss[.fff]) 
 
 
-=item B<SCALE>  (array-ref, read-only)    *Valid after execute*     
+=item B<SCALE>  (array-ref, read-only)    <Valid after execute>     
 
 Returns a reference to an array of integer values for each column. Actually, scale is only valid when the TYPE is
 a decimal (SQL_DECIMAL). For all other data types, an undef value is returned (to indicate that scale is not 
@@ -2773,7 +2790,7 @@ applicable).
 
 Undef for non-select statements.
 
-=item B<NULLABLE>  (array-ref, read-only)    *Valid after execute*
+=item B<NULLABLE>  (array-ref, read-only)    <Valid after execute>
 
 Works as expected. Returns a reference to an array indicating the possibility of each column returning a 
 null: 0 = no (i.e. declared as NOT NULL or PRIMARY KEY), 1 = yes, 2 = unknown.
@@ -2782,7 +2799,7 @@ Undef for non-select statements.
 
 =item B<CursorName>  (string, read-only)    
 
-*Not supported*
+Not supported.
 
 =item B<Statement>  (string, read-only) 
 
@@ -2790,7 +2807,7 @@ Returns the statement string passed to the C<$dbh-E<gt>prepare> method.
 
 =item B<RowsInCache>  (integer, read-only)
 
-*Not supported*
+Not supported.
 
 
 S< >
@@ -2809,11 +2826,11 @@ No known bugs. Please report bugs to the author.
 
 =over 0
 
-Thomas Wegner    wegner_thomas@yahoo.com
+Thomas Wegner    t_wegner@gmx.net
 
 =back
 
-Copyright (c) 2000-2001 Thomas Wegner. All rights reserved. This program is
+Copyright (c) 2000-2002 Thomas Wegner. All rights reserved. This program is
 free software. You may redistribute it and/or modify it under the terms
 of the Artistic License, distributed with Perl.
 

@@ -3,7 +3,7 @@
 #                  Macintosh edition
 #
 #
-#   This module is Copyright (C) 2000-2001 by
+#   This module is Copyright (C) 2000-2002 by
 #
 #       Thomas Wegner
 #
@@ -236,7 +236,7 @@ require DynaLoader;
 Exporter::export_ok_tags('all'); # add :all tag to @EXPORT_OK
 
 
-$VERSION = '0.2201'; # initial public release, where x.x201 refers to version 2.01 of dtF/SQL
+$VERSION = '0.3201'; # initial public release, where x.x201 refers to version 2.01 of dtF/SQL
 
 bootstrap Mac::DtfSQL $VERSION;
 
@@ -2316,11 +2316,11 @@ S< >I<(Credits to Arved Sandstrom and Alan Fry)>
 
 =over 0
 
-Thomas Wegner    wegner_thomas@yahoo.com
+Thomas Wegner    t_wegner@gmx.net
 
 =back
  
-Copyright (c) 2000-2001 Thomas Wegner. All rights reserved. This program is
+Copyright (c) 2000-2002 Thomas Wegner. All rights reserved. This program is
 free software. You may redistribute it and/or modify it under the terms
 of the Artistic License, distributed with Perl.
 

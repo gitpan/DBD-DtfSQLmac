@@ -1,4 +1,9 @@
-*INSTALL.561
+
+(INSTALL.561)
+
+
+*** Please read the README document first. ***
+
 
 
 --------------------------------- NOTE -------------------------------------
@@ -14,48 +19,35 @@ versions of the MacPerl application and tool.
 
 
 
-
 Installation for new MacPerl 5.6.1 (and higher):
 =================================================
 
 Installation is quite easy. Always install the DBI module first. The pre-built 
-DBI module (version 1.20 as of this writing) for MacPerl 5.6.1 is available from 
-my website at
+DBI module (version 1.21 as of this writing) for MacPerl 5.6.1 is available via 
+the MacPerl Module Porters page (http://dev.macperl.org/mmp/). As with every 
+module, use the installme.plx droplet for installation. This droplet is part of 
+the MacPerl 5.6.1 distribution. 
 
-    http://usemacperl.esmartweb.com//dbi.html
-	
+After you've installed the DBI module, simply drop the DBD-DtfSQLmac-0.3201.tar.gz 
+packed archive or the unpacked folder DBD-DtfSQLmac-0.3201 on the installme.plx 
+droplet. Answer the upcoming question "Convert all text and MacBinary files?" with 
+"Yes". This should install the module properly. 
 
-If you are using the MacPerl MPW tool, change directory to ":MacPerl-5.6.1:"
-in the MPW-Shell.
+Afterwards, you have to install the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb'
+by hand. The dtF/SQL 2.01 shared library comes with the distribution that you have
+to download from sLAB's web site (see the README document or DtfSQL.pm for details).
+Either put the 'dtFPPCSV2.8K.shlb' shared library (or at least an alias to it) in 
+the SAME folder as the shared library 'DtfSQL' that comes with this module (by 
+default, this folder is ':site_perl:MacPPC:auto:Mac:DtfSQL:) or put the dtF/SQL 2.01 
+shared library in the System Extensions folder. This is crucial since this module 
+can only be used in conjunction with the dtF/SQL 2.01 shared library.
 
-Run the INSTALL.pl script. This should install the modules and the shared 
-library properly. Note that the destination folder by default is
-
-    $ENV{MACPERL}site_perl:
-
-(the "site_perl" folder will be created if need be). However, you are able 
-to override this default. On the console, the install script asks for an 
-alternative destination directory. This should be (or should become) one of 
-your search paths for library modules, or MacPerl might not find the new 
-modules. Simply hit <Return> or <Enter> (MPW-Shell) when the default fits 
-your needs.
-
-After installation, run the test.pl script first, to see if the module loads. 
-Then run the test scripts located in the 't' folder. Some samples are provided 
+To be sure that everything is ok and the module loads properly, run the test.pl script 
+first. Then run the test scripts located in the 't' folder. Some samples are provided 
 in the 'samples' folder, to help you getting started.
 
+Have fun.
 
-Important note:
-===============
-This module can only be used in conjunction with the Mac::DtfSQL module, which 
-is part of this distribution. If you use the pre-build version of the Mac::DtfSQL 
-module or you've built the Mac::DtfSQL module as a shared library that depends on 
-the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb', then this module needs to 
-know where the dtF/SQL 2.01 shared library is located on your harddisk. Either 
-put the dtF/SQL 2.01 shared library 'dtFPPCSV2.8K.shlb' (or at least an alias to 
-it) in the *same* folder as the shared library 'DtfSQL' built from the extension 
-module (by default, the folder is ':site_perl :MacPPC:auto:Mac:DtfSQL:) or put the 
-dtF/SQL 2.01 shared library in the *system extensions* folder.
 
 
 

@@ -14,5 +14,9 @@ qw/ SQL_ALL_TYPES
 
 foreach $type (@typearray) {
 	$call = 'DBI::' . $type;
-	print $type, " = ", &$call ,"\n";
+	if (! defined( &$call ) ) {
+		print "$type not defined in DBI $DBI::VERSION\n";
+	} else { 
+		print $type, " = ", &$call ,"\n";
+	}
 }

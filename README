@@ -1,28 +1,28 @@
    ===========================================================================
-       DBD::DtfSQLmac Version 0.2201 for MacPerl 5.2.0r4 and MacPerl 5.6.1
+       DBD::DtfSQLmac Version 0.3201 for MacPerl 5.2.0r4 and MacPerl 5.6.1
    ===========================================================================
    
 
 
-Saturday, November 10, 2001
+Saturday, April 06, 2002
+
+"Spring has arrived over here, the daffodils are out and it's gorgeous."
+
+                                                            [Alan Fry]
+
 
 
 Dear MacPerl Users,
 
-this is the DBD::DtfSQLmac 0.2201 module with shared PPC libraries compiled for 
-MacPerl 5.2.0r4 (5.004) and the new MacPerl 5.6.1. The shared libraries provided 
+this is the DBD::DtfSQLmac 0.3201 module with shared PPC libraries compiled for 
+MacPerl 5.2.0r4 (5.004) and MacPerl 5.6.1 or higher. The shared libraries provided 
 will only run on PowerPC Macs and with the PPC or Fat versions of MacPerl. It was 
 compiled with MPW's MrC (PPC). Please let me know of any problems you might 
 encounter.
 
-You can download the module and the readme from my website via
+You can download the module and the readme from my CPAN directory
 
-    http://usemacperl.esmartweb.com/dbi.html
-
-or from my CPAN directory
-
-    $CPAN/authors/id/T/TW/TWEGNER/
-
+    $CPAN/authors/id/T/TW/TWEGNER/ .
 
 
 
@@ -37,7 +37,7 @@ DBD::DtfSQLmac - A DBI driver for the dtF/SQL 2.01 database engine, Macintosh ed
 
   MacPerl 5.2.0r4 (5.004) 
   DBI 1.08 (Mac build for MacPerl 5.2.0r4)
-  Mac::DtfSQL 0.2201 (part of the distribution)
+  Mac::DtfSQL 0.3201 (part of the distribution)
   
 
 *REQUIRES for MacPerl 5.6.1 (and higher)
@@ -45,7 +45,7 @@ DBD::DtfSQLmac - A DBI driver for the dtF/SQL 2.01 database engine, Macintosh ed
 
   MacPerl >= 5.6.1
   DBI >= 1.08 (Mac build for MacPerl 5.6.1)
-  Mac::DtfSQL 0.2201 (part of the distribution)
+  Mac::DtfSQL 0.3201 (part of the distribution)
 
 
 *DESCRIPTION
@@ -77,7 +77,7 @@ Codewarrior compiler and linker to build a version for CFM 68K Macs running MacP
 (see the Mac::DtfSQL module documentation for more information). However, be aware that 
 support for dynamic loading of shared libraries has been dropped for the 68K versions of the 
 new MacPerl 5.6.1 (and higher) tool and application. Hence, you will have to link the 
-Mac::DtfSQL extension I<statically> into your MacPerl 5.6.1 binary.
+Mac::DtfSQL extension statically into your MacPerl 5.6.1 binary.
 
 
 *INSTALLATION
@@ -126,7 +126,7 @@ No known bugs. Please report bugs to the author.
 *COPYRIGHT
 ===========
 
-Copyright (c) 2000-2001 Thomas Wegner.  All rights reserved.  This program is free 
+Copyright (c) 2000-2002 Thomas Wegner.  All rights reserved.  This program is free 
 software. You may redistribute it and/or modify it under the terms of the Artistic 
 License, distributed with Perl.
 
@@ -136,5 +136,5 @@ Have fun.
 --
 Thomas Wegner
 
-wegner_thomas@yahoo.com, 
+t_wegner@gmx.net,
 TWEGNER@cpan.org

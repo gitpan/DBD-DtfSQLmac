@@ -1,7 +1,7 @@
 # This Makefile is for the Mac::DtfSQL extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 0.2201 (Revision: ) from the contents of
+# 0.3201 (Revision: ) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #   ANY CHANGES MADE HERE WILL BE LOST!
@@ -20,9 +20,9 @@
 NAME = Mac::DtfSQL
 DISTNAME = DBD-DtfSQLmac
 NAME_SYM = Mac_DtfSQL
-VERSION = 0.2201
-VERSION_SYM = 0_2201
-XS_VERSION = 0.2201
+VERSION = 0.3201
+VERSION_SYM = 0_3201
+XS_VERSION = 0.3201
 INST_LIB = :::lib
 INST_ARCHLIB = :::lib
 PERL_LIB = :::lib
